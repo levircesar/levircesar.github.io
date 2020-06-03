@@ -1,0 +1,64 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+/*classes auziliares*/
+
+.container{
+	width: 100vw;
+	height: 100vh;
+	background-color: burlywood;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.w33{
+	width: 33.3%;
+}
+
+.clear{
+	clear: both;
+}
+
+.center{
+	text-align: center;
+}
+
+a.cta{
+	margin-bottom: 80px;
+	width: 90%;
+	max-width: 600px;
+	padding: 10px 20px;
+	background-color: #e7426b;
+	color: white;
+	font-size: 23px;
+	border-radius: 10px;
+	border-bottom: 5px solid #912943;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+}
+
+ .cta:active{
+	margin-top: 3px;
+	border-bottom: none;
+}
+
+@media screen and (max-width: 768px){
+
+	.w33{
+		width: 100%;
+	}
+
+	.container{
+		height: 100%;
+	}
+
+	a.cta{
+		margin-bottom: 10px;
+}
