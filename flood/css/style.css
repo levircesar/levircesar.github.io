@@ -49,7 +49,7 @@ a.cta{
 	border-bottom: none;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 500px){
 
 	.w33{
 		width: 100%;
