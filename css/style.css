@@ -34,6 +34,7 @@
 .w33{
 	width: 33.3%;
 	float: left;
+	padding: 10px;
 }
 
 
@@ -113,7 +114,6 @@ div.icon-round{
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
-	border: 1px solid #912943;
 }
 
 div.icon-round i{
@@ -130,7 +130,7 @@ div.texto-descricao{
 	display: inline-block;
 	width: calc(100% - 60px;);
 	color: white;
-	padding: 0 8px;
+	padding: 0px 8px;
 	margin-bottom: 20px;
 }
 
@@ -142,8 +142,13 @@ div.texto-descricao h2{
 div.texto-descricao p{
 	color: white;
 	font-size: 15px;
-	margin-top: 10px;
 	text-align: justify;
+}
+.clicker{
+	cursor: pointer;
+}
+.clicker:hover{
+	background-color:#c23659;
 }
 
 /*sessao footer1*/
@@ -194,6 +199,7 @@ footer.footer2{
 	text-align: center;
 	color: white;
 }
+
 
 
 @media screen and (max-width: 768px){
