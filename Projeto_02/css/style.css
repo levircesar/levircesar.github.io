@@ -1,0 +1,193 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+/*classes auziliares*/
+
+.container{
+	max-width: 1280px;
+	margin:0 auto;
+	padding: 0 2%;
+}
+
+a{
+	text-decoration: none;
+}
+
+.clear{
+	clear: both;
+}
+
+header{
+	background-color: #5e3ea1;
+	padding: 10px 0;
+}
+
+header > .container{
+	display: flex;
+}
+
+.logo{
+	color: white;
+	font-size: 21px;
+	width: 50%;
+}
+.logo a{
+	color: white;
+}
+
+.menu{
+	text-align: right;
+	width: 100%;
+}
+
+.menu ul{
+	list-style-type: none;
+}
+
+.menu li{
+	display: inline-block;
+	font-size: 15px;
+	margin-right: 15px;
+}
+
+.menu a{
+	color: white;
+}
+
+section.texto-chamada{
+	background-color: #4c3282;
+	padding: 30px 0;
+	text-align: center;
+	color: white;
+}
+
+section.texto-chamada i{
+	font-size: 40px;
+}
+
+section.texto-chamada h2,
+section.texto-chamada h3{
+	font-weight: normal;
+}
+
+section.texto-chamada h2 > b{
+	color: rgb(231,6,107);
+}
+
+section.loja{
+	padding: 30px 0;
+}
+
+section.loja > .container{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.loja-wraper{
+	width: 33.3%;
+	padding: 30px;
+}
+
+.box-single-loja{
+	border: 1px solid rgb(225,225,225);
+	height: 100%;
+}
+
+.box-single-loja img{
+	max-width: 100%;
+}
+
+.box-single-loja h2{
+	text-align: center;
+	padding: 0 8px;
+	font-weight: normal;
+}
+
+.box-single-loja p{
+	padding:15px 8px;
+	font-size: 15px;
+	color: rgb(10,10,10);
+}
+
+.loja-wraper a{
+	color: white;
+	background-color: #5fb382;
+	padding: 10px 8px;
+	text-align: center;
+	display: block;
+	width: 100%;
+}
+
+section.novidades{
+	padding: 30px 0;
+}
+
+.text-right{
+	text-align: right;
+}
+
+.w50{
+	float: left;
+	width: 50%;
+	padding: 0 15px;
+}
+
+.w50 h1{
+	margin-bottom: 15px;
+	font-size: 23px;
+	font-weight: normal;
+	color: #4b4b4b;
+}
+
+.box-single-noticia{
+	padding: 20px 0;
+	border-bottom: 1px dotted #ccc;
+}
+
+.box-single-noticia h2{
+	font-size: 21px;
+	font-weight: bold;
+	color: rgb(100,100,100);
+}
+
+.box-single-noticia p{
+	font-size: 16px;
+	font-weight: normal;
+	color: rgb(110,110,110);
+}
+
+
+.depoimentos ul{
+	list-style-position: inside;
+}
+.depoimentos li{
+	padding-top: 20px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	color: rgb(110,110,110);
+}
+
+footer{
+	padding: 20px 0;
+	background-color: #3c2e58;
+	color: white;
+}
+
+@media screen and (max-width: 768px){
+
+	.loja-wraper{
+		width: 100%;
+		max-width: 500px;
+		padding: 20px;
+		margin: 20px auto;
+	}
+
+	.w50{
+		width: 100%;
+		margin-bottom: 30px;
+	}
+
+]
