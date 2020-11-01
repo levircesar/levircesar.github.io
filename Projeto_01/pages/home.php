@@ -1,47 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Projeto 01</title>
-	<link rel="icon" href="images/piano.jpg" sizes="16x16 32x32" type="image/png">
-	<meta name="theme-color" content="#4285f4">
-	<link rel="stylesheet" href="estilo/fontawesome.css">
-	<link rel="stylesheet" href="estilo/solid.css">
-	<link rel="stylesheet" href="estilo/brands.css"> 	
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="estilo/style.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Descrição do meu website!">
-	<meta name="keywords" content="palavras-cgave,do,meu,site">
-	<meta charset="utf-8">
-</head>
-<body>
-	<header>
-		<div class="center">
-			<div class="logo left">Logomarca</div><!--logo-->
-			<nav class="desktop right">
-				<ul>
-					<li><a href="">Home</a></li>
-					<li><a href="">Sobre</a></li>
-					<li><a href="">Serviços</a></li>
-					<li><a href="">Contato</a></li>
-				</ul>
-			</nav>
-			<nav class="mobile right">
-				<div class="botao-menu-mobile">
-					<i class="fas fa-bars"></i>
-				</div>
-				<ul>
-					<li><a href="">Home</a></li>
-					<li><a href="">Sobre</a></li>
-					<li><a href="">Serviços</a></li>
-					<li><a href="">Contato</a></li>
-				</ul>
-			</nav>
-			<div class="clear"></div><!--clear-->
-		</div><!--center-->
-	</header>
-
-	<section class="banner-principal">
+<section class="banner-principal">
 		<div class="overlay"></div><!--overlay-->
 		<div class="center">
 			<form>
@@ -60,7 +17,7 @@
 				<p>Donec iaculis, sem sit amet ultrices rhoncus, ipsum lectus mollis diam, vitae malesuada neque risus dignissim metus. In hac habitasse platea dictumst. Sed volutpat nisl ut dolor tincidunt, quis rhoncus turpis mollis. Morbi et vulputate ante. Fusce lobortis pretium lorem in congue. Pellentesque auctor aliquet nisl, non pretium libero ultrices et. Suspendisse elementum turpis vitae accumsan aliquam. Suspendisse non porttitor nibh. Nulla quis elit sapien. Suspendisse varius laoreet elit vitae tincidunt. Curabitur in rhoncus justo. Nulla placerat nec velit ac interdum.</p>
 			</div><!--w50-->
 			<div class="w50 left">
-				<img class="right" src="images/imagem.png">
+				<img class="right" src="<?php echo INCLUDE_PATH; ?>images/imagem.png">
 			</div><!--w50-->
 			<div class="clear"></div>
 		</div><!--center-->
@@ -119,12 +76,3 @@
 			<div class="clear"></div>
 		</div><!--center-->
 	</section><!--extras-->
-
-	<footer>
-		<div class="center">
-			<p>Todos os direitos reservados!</p>
-		</div><!--center-->
-	</footer>
-	<script src="js/jquery.js"></script>
-</body>
-</html>
