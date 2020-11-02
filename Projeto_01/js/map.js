@@ -1,4 +1,3 @@
-$(function(){
 
 	var map;
 	
@@ -73,6 +72,9 @@ $(function(){
 	    		infoWindow.open(map, marker);
 	    	}
 	}
+
+$(function(){
+
 
 	initialize();
 

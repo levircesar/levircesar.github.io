@@ -1,4 +1,7 @@
-<section class="banner-principal">
+<section class="banner-container">
+		<div style="background-image: url('<?php echo INCLUDE_PATH ; ?>images/piano.jpg');" class="banner-single"></div><!--banner-single-->
+		<div style="background-image: url('<?php echo INCLUDE_PATH ; ?>images/piano2.jpg');" class="banner-single"></div><!--banner-single-->
+		<div style="background-image: url('<?php echo INCLUDE_PATH ; ?>images/piano3.jpg');" class="banner-single"></div><!--banner-single-->
 		<div class="overlay"></div><!--overlay-->
 		<div class="center">
 			<form>
@@ -7,7 +10,8 @@
 				<input type="submit" name="acao" value="Cadastrar!">
 			</form>
 		</div><!--center-->
-	</section><!--banner-principal-->
+		<div class="bullets"></div><!--bullets-->
+</section><!--banner-container-->
 
 	<section class="descricao-autor">
 		<div class="center">
@@ -47,7 +51,7 @@
 
 	<section class="extras">
 		<div class="center">
-			<div class="w50 left depoimentos-container">
+			<div id="depoimentos" class="w50 left depoimentos-container">
 				<h2 class="title">Depoimentos dos nossos clientes!</h2>
 				<div class="depoimento-single">
 					<p class="depoimento-descricao">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non libero nibh. Cras in ante nisl. Nam vitae consequat mi. Aenean pellentesque ornare libero in finibus. Nullam urna dolor, imperdiet eget porta eu, tempus vitae nisi. Vivamus ligula orci, faucibus nec magna fermentum, imperdiet mollis orci."</p>
@@ -62,7 +66,7 @@
 					<p class="nome-autor">Lorem Ipsum</p>
 				</div><!--depoimento-single-->
 			</div><!--w50-->
-			<div class="w50 left servicos-container">
+			<div id="servicos" class="w50 left servicos-container">
 				<h2 class="title">Serviços</h2>
 				<div class="servicos">
 					<ul>

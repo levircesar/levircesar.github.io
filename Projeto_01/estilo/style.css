@@ -7,9 +7,12 @@
 
 /**boot CSS**/
 
-html,body{
-	overflow-x: hidden;
+html{
 	height: 100%;
+}
+
+body{
+	overflow-x: hidden;
 }
 
 img{
@@ -95,12 +98,22 @@ nav.desktop a:hover{
 	text-decoration: underline;
 }
 
-section.banner-principal{
+section.banner-container{
 	width: 100%;
 	height: 600px;
-	background-image: url('../images/piano.jpg');
-	background-size: cover;
 	position: relative;
+}
+
+.banner-single{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background-size: cover;
+	background-position: center;
+
 }
 
 .overlay{
@@ -109,12 +122,12 @@ section.banner-principal{
 	top: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 1;
+	z-index: 2;
 	background-color: rgba(51,51,51,0.6);
 }
 
-section.banner-principal form{
-	z-index: 2;
+section.banner-container form{
+	z-index: 3;
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -124,14 +137,14 @@ section.banner-principal form{
 	max-width: 600px;
 }
 
-section.banner-principal form h2{
+section.banner-container form h2{
 	color: white;
 	font-weight: 300;
 	font-size: 30px;
 	text-align: center;
 }
 
-section.banner-principal form input[type=email]{
+section.banner-container form input[type=email]{
 	width: 100%;
 	height: 66px;
 	background:white;
@@ -141,7 +154,7 @@ section.banner-principal form input[type=email]{
 	margin-top: 10px;
 }
 
-section.banner-principal form input[type=submit]{
+section.banner-container form input[type=submit]{
 	width: 100%;
 	height: 66px;
 	background:#00C59E;
@@ -150,6 +163,28 @@ section.banner-principal form input[type=submit]{
 	margin-top: 10px;
 	cursor: pointer;
 	border: 0;
+}
+
+.bullets{
+	position: absolute;
+	z-index: 5;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.bullets span{
+	margin: 0 10px;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	cursor: pointer;
+	background-color: #444;
+}
+
+.bullets span.active-slider{
+	background-color: white;
 }
 
 section.descricao-autor{
