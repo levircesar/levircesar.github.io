@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treino HIIT</title>
-    <!-- Carrega Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Treino HIIT Minimalista</title>
+    <!-- Carrega Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Estilização customizada para a fonte e o corpo (Minimalista Dark) */
+        /* Definindo as cores da paleta para fácil referência no CSS e JS */
+        :root {
+            --color-bg-primary: #1A1A2E; /* Azul escuro principal */
+            --color-bg-secondary: #2C2C44; /* Azul roxo escuro para cards */
+            --color-bg-tertiary: #1F1F38; /* Fundo de elementos internos (cronômetro, select) */
+            --color-text-light: #E0E0E0; /* Texto quase branco */
+            --color-accent-red: #FF6B6B; /* Vermelho mais suave para corrida/ação principal */
+            --color-accent-blue: #6BADEF; /* Azul mais suave para caminhada/informação */
+            --color-accent-yellow: #FFD166; /* Amarelo/Ouro mais suave para aceleração/alerta */
+            --color-button-hover-red: #E05C5C; /* Hover do vermelho */
+            --color-button-hover-blue: #5C9FD8; /* Hover do azul */
+            --color-button-hover-yellow: #E0B85C; /* Hover do amarelo */
+            --color-text-dark: #1A1A2E; /* Texto escuro para contraste em backgrounds claros */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e; /* Azul Escuro Fundo Principal */
-            color: #ffffff;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-light);
             transition: background-color 0.3s;
         }
         
@@ -21,7 +34,7 @@
             font-weight: 900;
             line-height: 1;
             letter-spacing: -2px;
-            text-shadow: 0 4px 10px rgba(255, 69, 90, 0.4);
+            text-shadow: 0 4px 10px rgba(255, 107, 107, 0.2); /* Sombra mais suave */
         }
         /* Ajuste para telas maiores */
         @media (min-width: 640px) {
@@ -33,7 +46,7 @@
         /* Estilo para o contador 3-2-1 */
         .countdown {
             font-size: 10rem; /* Ajustado para mobile */
-            color: #ff455a; /* Vermelho Principal */
+            color: var(--color-accent-red);
             animation: pulse 0.5s infinite alternate;
         }
         @keyframes pulse {
@@ -47,17 +60,17 @@
         
         /* Estilo para o painel de destaque do intervalo atual */
         .highlight-run {
-            background-color: #ff455a; /* Vermelho Principal (Corrida) */
-            border-bottom: 6px solid #b32e3d;
+            background-color: var(--color-accent-red);
+            border-bottom: 6px solid var(--color-button-hover-red);
         }
         .highlight-walk {
-            background-color: #38bdf8; /* Azul Claro (Caminhada/Recuperação) */
-            border-bottom: 6px solid #1e87b0;
+            background-color: var(--color-accent-blue);
+            border-bottom: 6px solid var(--color-button-hover-blue);
         }
         .highlight-ramp {
-            background-color: #facc15; /* Amarelo/Ouro (Aceleração) */
-            border-bottom: 6px solid #d97706;
-            color: #1a1a2e; /* Garante bom contraste no texto */
+            background-color: var(--color-accent-yellow);
+            border-bottom: 6px solid var(--color-button-hover-yellow);
+            color: var(--color-text-dark); /* Garante bom contraste no texto */
         }
         
         /* Ajuste do Título para Mobile */
@@ -69,19 +82,30 @@
                 font-size: 3rem;
             }
         }
+
+        /* Estilos para o alerta de 10 segundos */
+        #next-step-alert {
+            background-color: var(--color-bg-secondary); /* Cor de fundo do card principal */
+            border-radius: 1rem; /* Arredondamento do card */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Sombra consistente */
+        }
+        
+        /* Novo estilo para o container que encapsula o timer e a velocidade, para ser coberto pelo alerta */
+        .main-display-container {
+             /* Define uma altura mínima para evitar que o layout se mova */
+            min-height: 20rem; /* Ajuste conforme necessário para acomodar os dois boxes */
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 bg-[#1a1a2e]">
+<body class="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4">
 
-    <div id="app" class="w-full max-w-sm sm:max-w-md bg-[#2c2c44] p-6 rounded-2xl shadow-2xl space-y-8 border-t-4 border-[#ff455a]">
-        <!-- TÍTULO ATUALIZADO: HIIT -->
-        <h1 class="app-title font-extrabold text-center text-[#ff455a] uppercase tracking-wide">HIIT</h1>
+    <div id="app" class="w-full max-w-sm sm:max-w-md bg-[--color-bg-secondary] p-6 rounded-2xl shadow-2xl space-y-8 border-t-4 border-[--color-accent-red]">
+        <!-- TÍTULO ATUALIZADO: HIIT --><h1 class="app-title font-extrabold text-center text-[--color-accent-red] uppercase tracking-wide">HIIT</h1>
 
-        <!-- 1. Configuração do Treino (Visível antes de começar) -->
-        <div id="config-panel" class="space-y-6">
+        <!-- 1. Configuração do Treino (Visível antes de começar) --><div id="config-panel" class="space-y-6">
             <div class="space-y-2">
-                <label for="difficulty" class="block text-sm font-semibold text-gray-300">Nível de Dificuldade:</label>
-                <select id="difficulty" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[#1a1a2e] border border-gray-600 focus:ring-4 focus:ring-[#ff455a]/50 focus:border-[#ff455a] transition duration-200 appearance-none cursor-pointer text-base">
+                <label for="difficulty" class="block text-sm font-semibold text-[--color-text-light]">Nível de Dificuldade:</label>
+                <select id="difficulty" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[--color-bg-tertiary] border border-gray-600 focus:ring-4 focus:ring-[--color-accent-red]/50 focus:border-[--color-accent-red] transition duration-200 appearance-none cursor-pointer text-base">
                     <option value="easy">Fácil (1:1)</option>
                     <option value="medium" selected>Médio (C/ Aceleração)</option>
                     <option value="hard">Difícil (C/ Aceleração)</option>
@@ -89,8 +113,8 @@
                 </select>
             </div>
             <div class="space-y-2">
-                <label for="duration" class="block text-sm font-semibold text-gray-300">Duração Total (minutos):</label>
-                <select id="duration" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[#1a1a2e] border border-gray-600 focus:ring-4 focus:ring-[#ff455a]/50 focus:border-[#ff455a] transition duration-200 appearance-none cursor-pointer text-base">
+                <label for="duration" class="block text-sm font-semibold text-[--color-text-light]">Duração Total (minutos):</label>
+                <select id="duration" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[--color-bg-tertiary] border border-gray-600 focus:ring-4 focus:ring-[--color-accent-red]/50 focus:border-[--color-accent-red] transition duration-200 appearance-none cursor-pointer text-base">
                     <option value="5">5 min</option>
                     <option value="10">10 min</option>
                     <option value="15" selected>15 min</option>
@@ -100,63 +124,75 @@
                 </select>
             </div>
 
-            <!-- Painel de Pré-visualização -->
-            <div id="preview-panel" class="bg-[#1a1a2e] p-4 rounded-xl shadow-inner border border-gray-700 max-h-48 overflow-y-auto space-y-2">
-                <p class="text-sm font-bold text-[#ff455a] mb-2">PRÉ-VISUALIZAÇÃO DO TREINO</p>
+            <!-- Painel de Pré-visualização --><div id="preview-panel" class="bg-[--color-bg-tertiary] p-4 rounded-xl shadow-inner border border-gray-700 max-h-48 overflow-y-auto space-y-2">
+                <p class="text-sm font-bold text-[--color-accent-red] mb-2">PRÉ-VISUALIZAÇÃO DO TREINO</p>
                 <div id="preview-list" class="space-y-1 text-xs">
-                    <!-- Conteúdo gerado via JS -->
-                </div>
+                    <!-- Conteúdo gerado via JS --></div>
             </div>
 
-            <button onclick="startCountdown()" id="start-btn-initial" class="btn-control w-full py-4 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-extrabold rounded-xl shadow-lg shadow-[#ff455a]/40 transition duration-150 transform hover:-translate-y-0.5">
+            <button onclick="startCountdown()" id="start-btn-initial" class="btn-control w-full py-4 bg-[--color-accent-red] hover:bg-[--color-button-hover-red] text-white font-extrabold rounded-xl shadow-lg shadow-[--color-accent-red]/40 transition duration-150 transform hover:-translate-y-0.5">
                 COMEÇAR
             </button>
         </div>
 
-        <!-- 2. Display do Cronômetro e Velocidades (Visível durante o treino) -->
-        <div id="workout-panel" class="hidden text-center space-y-6">
+        <!-- 2. Display do Cronômetro e Velocidades (Visível durante o treino) --><div id="workout-panel" class="hidden text-center space-y-6">
             
-            <!-- Título do Intervalo e Tempo Total Restante -->
-            <div id="interval-header" class="p-3 rounded-lg shadow-md transition duration-300">
-                <p id="current-interval-type" class="text-xl font-bold uppercase text-white sm:text-2xl">PREPARAR</p>
-                <!-- Cor da fonte do Total Restante alterada para 'text-white' -->
-                <p class="text-sm text-white mt-1">Total Restante: <span id="total-time-remaining" class="font-mono">--:--</span></p>
+            <!-- Título do Intervalo e Tempo Total Restante --><div id="interval-header" class="p-3 rounded-lg shadow-md transition duration-300">
+                <p id="current-interval-type" class="text-xl font-bold uppercase text-[--color-text-light] sm:text-2xl">PREPARAR</p>
+                <p class="text-sm text-[--color-text-light] mt-1">Total Restante: <span id="total-time-remaining" class="font-mono">--:--</span></p>
             </div>
 
-            <!-- Contador de Tempo -->
-            <div class="flex flex-col items-center justify-center h-40 sm:h-48 bg-[#1a1a2e] rounded-xl shadow-inner border border-gray-700">
-                <!-- 3-2-1 Countdown -->
-                <div id="countdown-display" class="countdown hidden">3</div>
-                <!-- Main Timer -->
-                <div id="main-timer-display" class="timer-display text-[#ff455a]">00:00</div>
-            </div>
+            <!-- Container da Área Principal do Display (Relativo para Alerta) --><div class="relative main-display-container"> 
+                
+                <!-- NOVO: Alerta de Próximo Passo (10 segundos) - Agora ocupa todo o espaço do container para substituir o display principal -->
+                <div id="next-step-alert" class="hidden absolute inset-0 rounded-xl flex flex-col items-center justify-center p-4 z-20 transition-opacity duration-300">
+                    
+                    <!-- Titulo do alerta na posição do Cronômetro/Velocidade -->
+                    <div class="flex flex-col items-center justify-center w-full h-40 sm:h-48 bg-[--color-bg-tertiary] rounded-xl shadow-inner border border-gray-700">
+                        <!-- FONTE AJUSTADA: text-xl sm:text-3xl -->
+                        <p class="text-xl sm:text-3xl font-bold text-[--color-accent-yellow] uppercase tracking-wider">AJUSTE A VELOCIDADE!</p>
+                        <p id="alert-countdown" class="text-8xl sm:text-9xl font-extrabold text-[--color-accent-yellow] leading-none mb-6">10</p>
+                    </div>
 
-            <!-- Velocidade Sugerida -->
-            <div class="bg-[#1a1a2e] p-4 rounded-xl shadow-md border-l-4 border-[#38bdf8]">
-                <p class="text-sm font-semibold text-gray-300 mb-1">VELOCIDADE SUGERIDA (km/h)</p>
-                <p id="speed-display" class="text-4xl sm:text-5xl font-extrabold text-[#38bdf8] transition duration-300">--</p>
+                    <!-- Próxima Velocidade na posição da Velocidade Sugerida -->
+                    <div class="bg-[--color-bg-tertiary] p-4 rounded-xl shadow-md border-l-4 border-[--color-accent-yellow] mt-4 w-full">
+                        <p class="text-sm font-semibold text-gray-300 mb-1">PRÓXIMA VELOCIDADE (km/h)</p>
+                        <!-- FONTE AJUSTADA: text-3xl sm:text-4xl -->
+                        <p id="next-speed-display" class="text-3xl sm:text-4xl font-extrabold text-[--color-text-light] transition duration-300">--</p>
+                    </div>
+
+                </div>
+
+                <!-- Wrapper para Cronômetro e Velocidade (Visível quando o alerta está escondido) --><div id="main-display-content">
+                    <!-- Contador de Tempo --><div id="timer-box" class="flex flex-col items-center justify-center h-40 sm:h-48 bg-[--color-bg-tertiary] rounded-xl shadow-inner border border-gray-700">
+                        <!-- 3-2-1 Countdown --><div id="countdown-display" class="countdown hidden">3</div>
+                        <!-- Main Timer --><div id="main-timer-display" class="timer-display text-[--color-accent-red]">00:00</div>
+                    </div>
+
+                    <!-- Velocidade Sugerida --><div id="speed-box" class="bg-[--color-bg-tertiary] p-4 rounded-xl shadow-md border-l-4 border-[--color-accent-blue] mt-4">
+                        <p class="text-sm font-semibold text-gray-300 mb-1">VELOCIDADE SUGERIDA (km/h)</p>
+                        <p id="speed-display" class="text-4xl sm:text-5xl font-extrabold text-[--color-accent-blue] transition duration-300">--</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 3. Controles do Treino (Visível durante/depois do treino) -->
-        <div id="controls-panel" class="flex justify-center space-x-2 pt-2 sm:space-x-4">
-            <button onclick="pauseWorkout()" id="pause-btn" class="btn-control hidden flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+        <!-- 3. Controles do Treino (Visível durante/depois do treino) --><div id="controls-panel" class="flex justify-center space-x-2 pt-2 sm:space-x-4">
+            <button onclick="pauseWorkout()" id="pause-btn" class="btn-control hidden flex-1 py-3 bg-[--color-accent-yellow] hover:bg-[--color-button-hover-yellow] text-[--color-text-dark] font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
                 PAUSAR
             </button>
-            <!-- BOTÃO PARAR: VERMELHO E SÓ APARECE EM ESTADO PAUSADO -->
-            <button onclick="stopWorkout()" id="stop-btn" class="btn-control hidden flex-1 py-3 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+            <!-- BOTÃO PARAR: VERMELHO E SÓ APARECE EM ESTADO PAUSADO --><button onclick="stopWorkout()" id="stop-btn" class="btn-control hidden flex-1 py-3 bg-[--color-accent-red] hover:bg-[--color-button-hover-red] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
                 PARAR
             </button>
-            <button onclick="startWorkout()" id="resume-btn" class="btn-control hidden flex-1 py-3 bg-[#38bdf8] hover:bg-[#1e87b0] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+            <button onclick="startWorkout()" id="resume-btn" class="btn-control hidden flex-1 py-3 bg-[--color-accent-blue] hover:bg-[--color-button-hover-blue] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
                 CONTINUAR
             </button>
-            <button onclick="resetWorkout()" id="reset-btn" class="btn-control hidden w-full py-4 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-extrabold rounded-xl shadow-lg transition duration-150">
+            <button onclick="resetWorkout()" id="reset-btn" class="btn-control hidden w-full py-4 bg-[--color-accent-red] hover:bg-[--color-button-hover-red] text-white font-extrabold rounded-xl shadow-lg transition duration-150">
                 RESETAR
             </button>
         </div>
 
-        <!-- Mensagem de Conclusão -->
-        <div id="finished-message" class="hidden text-center mt-6 p-4 bg-green-900/50 rounded-xl border border-green-700">
+        <!-- Mensagem de Conclusão --><div id="finished-message" class="hidden text-center mt-6 p-4 bg-green-900/50 rounded-xl border border-green-700">
             <p class="text-2xl font-bold text-green-400">TREINO CONCLUÍDO! 🎉</p>
             <p class="text-gray-400">Ótimo trabalho! Clique em RESETAR para começar de novo.</p>
         </div>
@@ -209,6 +245,11 @@
         const previewList = document.getElementById('preview-list');
         const intervalHeader = document.getElementById('interval-header');
 
+        // NOVAS REFERÊNCIAS PARA O ALERTA E DISPLAY PRINCIPAL
+        const nextStepAlert = document.getElementById('next-step-alert');
+        const alertCountdown = document.getElementById('alert-countdown');
+        const nextSpeedDisplay = document.getElementById('next-speed-display');
+        const mainDisplayContent = document.getElementById('main-display-content'); // Novo wrapper
 
         // --- FUNÇÕES DE ÁUDIO ---
         
@@ -402,18 +443,18 @@
                 let speedColor;
 
                 if (step.type === 'run') {
-                    typeClass = 'text-[#ff455a] font-medium';
-                    speedColor = '#ff455a';
+                    typeClass = 'text-[--color-accent-red] font-medium';
+                    speedColor = 'var(--color-accent-red)';
                 } else if (step.type === 'walk') {
-                    typeClass = 'text-[#38bdf8]';
-                    speedColor = '#38bdf8';
+                    typeClass = 'text-[--color-accent-blue]';
+                    speedColor = 'var(--color-accent-blue)';
                 } else if (step.type === 'ramp') {
-                    typeClass = 'text-[#facc15] font-medium';
-                    speedColor = '#facc15';
+                    typeClass = 'text-[--color-accent-yellow] font-medium';
+                    speedColor = 'var(--color-accent-yellow)';
                 }
                 
                 html += `
-                    <p class="flex justify-between items-center px-2 py-1 bg-[#2c2c44] rounded-lg">
+                    <p class="flex justify-between items-center px-2 py-1 bg-[--color-bg-secondary] rounded-lg">
                         <span class="text-gray-400">${step.icon} Passo ${index + 1}: ${step.label.split(' ')[0]}</span>
                         <span class="${typeClass} text-right" style="color:${speedColor}">
                             ${timeStr} @ ${speedStr} km/h
@@ -429,7 +470,7 @@
                 ${html}
                 <div class="pt-2 mt-2 border-t border-gray-700 text-gray-300 font-bold flex justify-between">
                     <span>Duração Total Estimada:</span> 
-                    <span class="text-white">${totalTimeMinutes} minutos</span>
+                    <span class="text-[--color-text-light]">${totalTimeMinutes} minutos</span>
                 </div>
             `;
         }
@@ -447,6 +488,7 @@
             configPanel.classList.toggle('hidden', state !== 'stopped');
             workoutPanel.classList.toggle('hidden', state === 'stopped');
             finishedMessage.classList.add('hidden');
+            nextStepAlert.classList.add('hidden'); // Garante que o alerta está escondido em estados não-run
 
             // Lógica dos botões: Limpa todos os botões e remove classes de layout
             startBtnInitial.classList.add('hidden'); 
@@ -515,13 +557,13 @@
                 // Destaque de cor
                 if(step.type === 'run') {
                     intervalHeader.classList.add('highlight-run');
-                    currentIntervalTypeDisplay.classList.remove('text-black');
+                    currentIntervalTypeDisplay.classList.remove('text-[--color-text-dark]'); // Garante texto claro
                 } else if (step.type === 'walk') {
                     intervalHeader.classList.add('highlight-walk');
-                    currentIntervalTypeDisplay.classList.remove('text-black');
+                    currentIntervalTypeDisplay.classList.remove('text-[--color-text-dark]'); // Garante texto claro
                 } else if (step.type === 'ramp') {
                     intervalHeader.classList.add('highlight-ramp');
-                    currentIntervalTypeDisplay.classList.add('text-black'); // Ajusta texto para cor de fundo clara
+                    currentIntervalTypeDisplay.classList.add('text-[--color-text-dark]'); // Ajusta texto para cor de fundo clara
                 }
             }
         }
@@ -592,6 +634,47 @@
                 // 1. Decrementa o tempo restante do passo atual
                 stepTimeRemaining--;
 
+                // --- Lógica do Alerta de 10 Segundos ---
+                const nextStep = workoutSteps[currentStepIndex + 1];
+                const isFinalStep = currentStepIndex >= workoutSteps.length - 1;
+
+                if (!isFinalStep) {
+                    // Oculta os elementos principais e mostra o alerta nos últimos 10 segundos
+                    const isAlertTime = stepTimeRemaining <= 10 && stepTimeRemaining > 0;
+                    
+                    if (isAlertTime) {
+                        nextStepAlert.classList.remove('hidden');
+                        
+                        // Garante que o display principal do cronômetro e velocidade estejam ocultos
+                        mainDisplayContent.classList.add('hidden');
+
+                        if (stepTimeRemaining === 10) {
+                            // Configuração inicial do alerta
+                            const nextLabel = nextStep.label.split(' ')[0].toUpperCase();
+                            // Atualiza a velocidade no alerta. O tempo de transição (10s) será mostrado pelo alertCountdown.
+                            nextSpeedDisplay.textContent = `${nextStep.speed.toFixed(1)} km/h (${nextLabel})`;
+                            playBeep(400, 100); // Som de aviso
+                        }
+                        
+                        // Atualiza a contagem regressiva do alerta
+                        alertCountdown.textContent = stepTimeRemaining;
+                        
+                        // Bipes mais rápidos nos últimos 5 segundos
+                        if (stepTimeRemaining <= 5) {
+                            playBeep(700, 100); 
+                        }
+                    } else {
+                        // Fora do tempo de alerta, esconde o alerta e mostra os displays principais
+                        nextStepAlert.classList.add('hidden');
+                        mainDisplayContent.classList.remove('hidden');
+                    }
+                } else {
+                    // Garante que o alerta esteja escondido se for o último passo (Desaceleração)
+                    nextStepAlert.classList.add('hidden');
+                }
+                // --- FIM Lógica do Alerta ---
+
+
                 // 2. Atualiza o display (tempo do passo e tempo total)
                 updateDisplay();
 
@@ -637,7 +720,11 @@
             // Garante que o display principal do cronômetro esteja visível e mostra o estado de pausa
             countdownDisplay.classList.add('hidden');
             mainTimerDisplay.classList.remove('hidden');
+            nextStepAlert.classList.add('hidden'); // Esconde o alerta se pausado
             
+            // Garante que os displays principais voltem a aparecer se estiverem escondidos pelo alerta
+            mainDisplayContent.classList.remove('hidden');
+
             updateUI();
             currentIntervalTypeDisplay.textContent = 'PAUSADO 🛑';
         }
@@ -649,6 +736,9 @@
         function stopWorkout(completed = false) {
             clearInterval(timerInterval);
             state = completed ? 'finished' : 'stopped';
+            nextStepAlert.classList.add('hidden'); // Esconde o alerta se parado
+             // Garante que os displays principais voltem a aparecer para o reset
+            mainDisplayContent.classList.remove('hidden');
             updateUI();
 
             if (!completed) {
@@ -669,6 +759,11 @@
             stepTimeRemaining = 0;
             workoutSteps = [];
             profile = null;
+            nextStepAlert.classList.add('hidden');
+            
+            // Garante que os displays principais estejam visíveis na configuração
+            mainDisplayContent.classList.remove('hidden');
+            
             updateUI();
             updateDisplay();
             updatePreview(); // Gera a pré-visualização inicial
