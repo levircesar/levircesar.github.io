@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treino HIT</title>
+    <title>Treino HIIT</title>
     <!-- Carrega Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -74,7 +74,8 @@
 <body class="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 bg-[#1a1a2e]">
 
     <div id="app" class="w-full max-w-sm sm:max-w-md bg-[#2c2c44] p-6 rounded-2xl shadow-2xl space-y-8 border-t-4 border-[#ff455a]">
-        <h1 class="app-title font-extrabold text-center text-[#ff455a] uppercase tracking-wide">HIT</h1>
+        <!-- TÍTULO ATUALIZADO: HIIT -->
+        <h1 class="app-title font-extrabold text-center text-[#ff455a] uppercase tracking-wide">HIIT</h1>
 
         <!-- 1. Configuração do Treino (Visível antes de começar) -->
         <div id="config-panel" class="space-y-6">
@@ -118,7 +119,8 @@
             <!-- Título do Intervalo e Tempo Total Restante -->
             <div id="interval-header" class="p-3 rounded-lg shadow-md transition duration-300">
                 <p id="current-interval-type" class="text-xl font-bold uppercase text-white sm:text-2xl">PREPARAR</p>
-                <p class="text-sm text-gray-300 mt-1">Total Restante: <span id="total-time-remaining" class="font-mono">--:--</span></p>
+                <!-- Cor da fonte do Total Restante alterada para 'text-white' -->
+                <p class="text-sm text-white mt-1">Total Restante: <span id="total-time-remaining" class="font-mono">--:--</span></p>
             </div>
 
             <!-- Contador de Tempo -->
@@ -141,7 +143,8 @@
             <button onclick="pauseWorkout()" id="pause-btn" class="btn-control hidden flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
                 PAUSAR
             </button>
-            <button onclick="stopWorkout()" id="stop-btn" class="btn-control hidden flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+            <!-- BOTÃO PARAR: VERMELHO E SÓ APARECE EM ESTADO PAUSADO -->
+            <button onclick="stopWorkout()" id="stop-btn" class="btn-control hidden flex-1 py-3 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
                 PARAR
             </button>
             <button onclick="startWorkout()" id="resume-btn" class="btn-control hidden flex-1 py-3 bg-[#38bdf8] hover:bg-[#1e87b0] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
@@ -166,8 +169,8 @@
         // Configurações predefinidas para os níveis de dificuldade
         // Os intervalos (runDuration, walkDuration, rampDuration) são agora 30s, 60s ou 120s.
         const WORKOUT_PROFILES = {
-            // Easy: 1:1, walk: 60s, run: 60s, ramp: 0s. Mantém a mudança abrupta.
-            easy: { runSpeed: 8.0, walkSpeed: 5.0, runDuration: 60, walkDuration: 60, runRatio: '1:1', rampDuration: 0 }, 
+            // Easy: runSpeed ajustado para 7.0 km/h
+            easy: { runSpeed: 7.0, walkSpeed: 5.0, runDuration: 60, walkDuration: 60, runRatio: '1:1', rampDuration: 0 }, 
             // Médio: 1:1 (com 30s de aceleração), ajustado de 45s para 60s de caminhada.
             medium: { runSpeed: 10.0, walkSpeed: 5.5, runDuration: 60, walkDuration: 60, runRatio: '1:1', rampDuration: 30 }, 
             // Hard: 2:1 (com 30s de aceleração), 30s de caminhada.
@@ -445,29 +448,32 @@
             workoutPanel.classList.toggle('hidden', state === 'stopped');
             finishedMessage.classList.add('hidden');
 
-            // Lógica dos botões
+            // Lógica dos botões: Limpa todos os botões e remove classes de layout
             startBtnInitial.classList.add('hidden'); 
             pauseBtn.classList.add('hidden');
-            stopBtn.classList.add('hidden');
+            stopBtn.classList.add('hidden'); // Ocultado por padrão
             resumeBtn.classList.add('hidden');
             resetBtn.classList.add('hidden');
-            controlsPanel.classList.remove('justify-center', 'space-x-2', 'space-x-4', 'flex');
-            controlsPanel.classList.add('flex');
+            controlsPanel.classList.remove('space-x-2', 'space-x-4', 'justify-center');
+            
+            // Controle de visibilidade do painel principal de controles
+            controlsPanel.classList.remove('hidden');
 
             if (state === 'stopped') {
                 configPanel.classList.remove('hidden');
                 startBtnInitial.classList.remove('hidden');
-                controlsPanel.classList.remove('flex'); // Esconde o painel de controles
-            } else if (state === 'countdown') {
-                controlsPanel.classList.add('hidden');
-            } else if (state === 'running') {
+                controlsPanel.classList.add('hidden'); // Esconde o painel de controles se estiver em 'stopped'
+            } else if (state === 'countdown' || state === 'running') {
+                // Durante Countdown e Running, só mostramos PAUSAR
+                controlsPanel.classList.add('space-x-2', 'justify-center');
                 pauseBtn.classList.remove('hidden');
-                stopBtn.classList.remove('hidden');
-                controlsPanel.classList.add('space-x-2', 'justify-center');
+
             } else if (state === 'paused') {
-                resumeBtn.classList.remove('hidden');
-                stopBtn.classList.remove('hidden');
+                // Durante Paused, mostramos CONTINUAR e PARAR (VERMELHO)
                 controlsPanel.classList.add('space-x-2', 'justify-center');
+                resumeBtn.classList.remove('hidden');
+                stopBtn.classList.remove('hidden'); 
+                
             } else if (state === 'finished') {
                 workoutPanel.classList.add('hidden');
                 finishedMessage.classList.remove('hidden');
@@ -495,7 +501,10 @@
             mainTimerDisplay.textContent = formatTime(stepTimeRemaining);
             totalTimeRemainingDisplay.textContent = formatTime(totalRemaining);
 
-            if (state === 'running' || state === 'paused') {
+            if (state === 'running' || state === 'paused' || state === 'countdown') {
+                // Durante o countdown, não há step ativo ainda, mas precisamos do display do workout
+                if (state === 'countdown') return;
+
                 const step = workoutSteps[currentStepIndex];
                 let typeText = step.label;
                 let speed = step.speed;
@@ -537,8 +546,8 @@
             // 2. Transiciona o Estado para Countdown
             state = 'countdown';
             updateUI();
-            updateDisplay();
-
+            // NÂO chama updateDisplay(), pois a contagem regressiva usa o display próprio
+            
             let count = 3;
             countdownDisplay.textContent = count;
             countdownDisplay.classList.remove('hidden');
@@ -546,6 +555,12 @@
             currentIntervalTypeDisplay.textContent = 'PREPARE-SE!';
 
             timerInterval = setInterval(() => {
+                // Se o estado mudou para 'paused' ou 'stopped' durante o countdown
+                if (state !== 'countdown') {
+                    clearInterval(timerInterval);
+                    return;
+                }
+
                 count--;
                 if (count > 0) {
                     countdownDisplay.textContent = count;
@@ -566,7 +581,8 @@
          * Inicia ou Continua o treino (após o countdown ou pausa).
          */
         function startWorkout() {
-            if (state === 'finished' || state === 'running' || workoutSteps.length === 0) return;
+            // Se estiver em countdown, o estado será alterado abaixo. Se estiver running/finished, retorna.
+            if (state === 'running' || state === 'finished' || workoutSteps.length === 0) return;
 
             state = 'running';
             updateUI();
@@ -613,9 +629,15 @@
          * Pausa o treino.
          */
         function pauseWorkout() {
-            if (state !== 'running') return;
+            if (state !== 'running' && state !== 'countdown') return;
+            
             clearInterval(timerInterval);
             state = 'paused';
+            
+            // Garante que o display principal do cronômetro esteja visível e mostra o estado de pausa
+            countdownDisplay.classList.add('hidden');
+            mainTimerDisplay.classList.remove('hidden');
+            
             updateUI();
             currentIntervalTypeDisplay.textContent = 'PAUSADO 🛑';
         }
