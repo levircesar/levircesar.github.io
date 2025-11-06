@@ -1,214 +1,231 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Web-site Menu</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width-device-width,initial-scale=1.0,maximun-scale=1.0"
-    />
-    <script
-      src="https://kit.fontawesome.com/6575b9c654.js"
-      crossorigin="anonymous"
-    ></script>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!--<section class="banner">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="w50 center">
-          <a
-            style="left: 50%; top: 10%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/web-desing-express"
-            >Conheça meu site Pessoal!</a
-          >
-          <a
-            style="left: 50%; top: 25%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/web-desing-express"
-            >Web Desing Express</a
-          >
-          <a
-            style="left: 50%; top: 40%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/respeitador/index.html"
-            >Respeitador 1.0
-          </a>
-          <a
-            style="left: 50%; top: 55%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/cesar-ribeiro-corretor"
-            >Cesar Ribeiro Corretor</a
-          >
-          <a
-            style="left: 50%; top: 70%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/Projeto_01/index.html"
-            >Projeto_01</a
-          >
-          <a
-            style="left: 50%; top: 85%"
-            class="cta"
-            target="_blank"
-            href="https://levircesar.github.io/Projeto_02"
-            >Projeto_02</a
-          >
-        </div>
-        <div class="clear"></div>
-      </div>
-    </section>-->
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levir Lemos | Portfolio QA & Automação</title>
+    <!-- Carrega o Tailwind CSS CDN para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter como padrão */
+        :root {
+            --cor-principal: #1f2937; /* Cinza escuro */
+            --cor-secundaria: #374151; /* Cinza médio */
+            --cor-destaque: #3b82f6; /* Azul */
+            --cor-texto: #f9fafb; /* Branco muito claro */
+        }
 
-    <section class="servicos">
-      <div class="container">
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://levirlemos.online'"
-        >
-          <div class="icon-round"><i class="fab fa-angellist"></i></div>
-          <div class="texto-descricao">
-            <h2>Conheça meu site pessoal</h2>
-            <p>
-								Site portifólio pessoal feito em Next JS com integração ao 
-								GitHub API
-            </p>
-          </div>
-        </div>
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://imc.levirlemos.online'"
-        >
-          <div class="icon-round"><i class="fas fa-address-book"></i></div>
-          <div class="texto-descricao">
-            <h2>IMC Calculator</h2>
-            <p>
-              Sua calculadora online para medir seu índice de massa corporal
-            </p>
-          </div>
-        </div>
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://cesar.levirlemos.online'"
-        >
-          <div class="icon-round"><i class="fab fa-angellist"></i></div>
-          <div class="texto-descricao">
-            <h2>Corretor de Imóveis</h2>
-            <p>
-              Site para corretor de imóveis, feito em Next JS e utilizando bo 
-							banco de dados do Firebase
-            </p>
-          </div>
-        </div>
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://modernizaweb.vercel.app/'"
-        >
-          <div class="icon-round"><i class="fas fa-air-freshener"></i></div>
-          <div class="texto-descricao">
-            <h2>Moderniza Web</h2>
-            <p>
-              Site para divulgação da marca Moderniza Web
-            </p>
-          </div>
-        </div>
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://oqueeumando.online'"
-        >
-          <div class="icon-round"><i class="fas fa-ambulance"></i></div>
-          <div class="texto-descricao">
-            <h2>Oque eu mando?</h2>
-            <p>
-              Gerador de cantadas, assuntos , piadas aleatórias para te ajudar 
-							a interagir
-            </p>
-          </div>
-        </div>
-        <div
-          class="w33 center clicker"
-          onclick="window.location='https://moveit-next-wine.vercel.app/'"
-        >
-          <div class="icon-round"><i class="fas fa-anchor"></i></div>
-          <div class="texto-descricao">
-            <h2>Moveit</h2>
-            <p>
-              Aplicativo para te lembrar de se exercitar ao passar muito
-							tempo  sentado
-            </p>
-          </div>
-        </div>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cor-principal);
+            color: var(--cor-texto);
+        }
+        /* Estilização para o SVG de link */
+        .link-icon {
+            stroke: var(--cor-destaque);
+            transition: transform 0.2s;
+        }
+        .project-card:hover .link-icon {
+            transform: translateX(4px);
+        }
+        /* Estilo para links e botões */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--cor-destaque);
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
 
-        <div class="clear"></div>
-      </div>
-    </section>
+    <!-- Container Principal do Portfolio -->
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
 
-    <footer class="footer1">
-      <div class="container">
-        <div class="w33">
-          <h2>Aonde Estamos?</h2>
-          <p><i class="fas fa-thumbtack"></i> Fortaleza/CE</p>
-          <p><i class="fas fa-phone-alt"></i> (85) 99841-3146</p>
-        </div>
-        <div class="w33">
-          <h2 style="text-align: center">Links úteis</h2>
-          <a target="”_blank”" href="https://github.com/levircesar"
-            >Meu GitHub</a
-          >
-          <a target="”_blank”" href="https://w3schools.com">W3 Schools</a>
-        </div>
-        <div class="w33">
-          <h2 style="text-align: center">Conecte-se conosco</h2>
-          <div class="group-icons">
-            <div class="wpp-desktop">
-              <a target="”_blank”" href="https://www.facebook.com/levir.lemos/"
-                ><i class="fab fa-facebook-square"></i
-              ></a>
-              <a target="”_blank”" href="https://www.instagram.com/levirlms/"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a
-                target="”_blank”"
-                href="https://web.whatsapp.com/send?phone=5585998413146&amp;text=Gostaria de receber mais informações sobre Seu site https://levircesar.github.io/"
-                ><i class="fab fa-whatsapp"></i
-              ></a>
+        <!-- Seção do Perfil e Contato -->
+        <header class="flex flex-col md:flex-row items-center justify-between p-6 bg-gray-800 rounded-2xl shadow-2xl mb-12">
+            
+            <div class="flex items-center space-x-6">
+                <!-- Foto de Perfil -->
+                <img 
+                    src="https://avatars.githubusercontent.com/u/42752810?s=400&u=4cb9a597839194b156c2e232a742151af17ead5c&v=4" 
+                    alt="Foto de Perfil de Levir Lemos"
+                    class="w-24 h-24 rounded-full object-cover border-4 border-cor-destaque shadow-xl"
+                >
+                
+                <!-- Informações do Perfil -->
+                <div>
+                    <h1 class="text-3xl font-bold text-cor-texto">Levir Lemos</h1>
+                    <p class="text-cor-destaque font-medium">Quality Assurance Analyst & Test Automation Specialist</p>
+                    <p class="text-sm text-gray-400 mt-1">SDET | Playwright | Cypress | Selenium</p>
+                </div>
             </div>
-            <div class="wpp-mobile">
-              <a target="”_blank”" href="https://www.facebook.com/levir.lemos/"
-                ><i class="fab fa-facebook-square"></i
-              ></a>
-              <a target="”_blank”" href="https://www.instagram.com/levirlms/"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a
-                target="”_blank”"
-                href="https://api.whatsapp.com/send?phone=5585998413146&text=Gostaria%20de%20receber%20mais%20informa%C3%A7%C3%B5es%20do%20seu%20site%20https%3A%2F%2Flevircesar.github.io%2F"
-                ><i class="fab fa-whatsapp"></i
-              ></a>
-            </div>
-          </div>
-        </div>
-        <div class="clear"></div>
-      </div>
-      <!--container-->
-    </footer>
-    <!--footer1-->
 
-    <footer class="footer2">
-      <div class="container">
-        <p>Todos os direitos reservados</p>
-      </div>
-      <!--container-->
+            <!-- Botão de Ação/Link (Exemplo: GitHub) -->
+            <div class="mt-6 md:mt-0">
+                <a href="https://github.com/levircesar" target="_blank" class="btn-primary">
+                    <!-- Ícone de GitHub (SVG simples) -->
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.082-.742.083-.727.083-.727 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.301-1.23 3.301-1.23.653 1.653.242 2.874.118 3.176.766.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.559 21.791 24 17.227 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    Acessar GitHub
+                </a>
+            </div>
+        </header>
+
+        <!-- Seção Sobre o Criador (Bio) -->
+        <section class="mb-12 p-6 bg-gray-800 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Sobre o Criador</h2>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Olá pessoal! Trabalho como SDET (Software Development Engineer in Test) e 
+                tenho experiência com <span class="text-cor-destaque font-bold">Playwright, Cypress, Selenium</span> e outras ferramentas
+                de teste. Criei esta plataforma para democratizar o aprendizado de 
+                automação de testes e ajudar a comunidade QA, compartilhando conhecimento prático.
+            </p>
+        </section>
+
+        <!-- Seções de Formação e Especialidade -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <!-- Formação -->
+            <div class="p-6 bg-gray-800 rounded-xl shadow-lg">
+                <h3 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Formação</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-cor-destaque" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v8M12 18h.01"/></svg>
+                        Bacharel em Sistemas de Informação
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Especialidade -->
+            <div class="p-6 bg-gray-800 rounded-xl shadow-lg">
+                <h3 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Especialidade</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-cor-destaque" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Test Automation & QA
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- Seção de Projetos -->
+        <section class="p-6 bg-gray-800 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">Meus Projetos (GitHub Pages)</h2>
+            <p class="text-gray-400 mb-6 italic">Clique para visualizar a demonstração de cada projeto (substitua `levircesar` pela URL base do seu GitHub Pages).</p>
+
+            <!-- Grid de Projetos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Lista de Projetos identificados na imagem -->
+                
+                <!-- Projeto Projeto_02 -->
+                <a href="https://levircesar.github.io/Projeto_02" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Projeto_02</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Projeto 02.</p>
+                </a>
+
+                <!-- Projeto cesar-ribeiro-corretor -->
+                <a href="https://levircesar.github.io/cesar-ribeiro-corretor" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Cesar Ribeiro Corretor</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Cesar Ribeiro Corretor.</p>
+                </a>
+                
+                <!-- Projeto flood -->
+                <a href="https://levircesar.github.io/flood" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Flood</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Flood.</p>
+                </a>
+                
+                <!-- Projeto hit -->
+                <a href="https://levircesar.github.io/hit" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Hit</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Hit.</p>
+                </a>
+
+                <!-- Projeto imc -->
+                <a href="https://levircesar.github.io/imc" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Calculadora IMC</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web de Calculadora de IMC.</p>
+                </a>
+                
+                <!-- Projeto pixel-lemos -->
+                <a href="https://levircesar.github.io/pixel-lemos" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Pixel Lemos</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Pixel Lemos.</p>
+                </a>
+                
+                <!-- Projeto respeitador -->
+                <a href="https://levircesar.github.io/respeitador" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Respeitador</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Respeitador.</p>
+                </a>
+                
+                <!-- Projeto shalom-ellery -->
+                <a href="https://levircesar.github.io/shalom-ellery" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Shalom Ellery</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Shalom Ellery.</p>
+                </a>
+                
+                <!-- Projeto site2 -->
+                <a href="https://levircesar.github.io/site2" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Site 2</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Site 2.</p>
+                </a>
+
+                <!-- Projeto web-desing-express -->
+                <a href="https://levircesar.github.io/web-desing-express" target="_blank" class="project-card block p-5 bg-gray-700 rounded-xl transition duration-300 hover:bg-gray-600 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-bold">Web Design Express</h4>
+                        <svg class="link-icon w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">Demonstração web do projeto Web Design Express.</p>
+                </a>
+                
+            </div>
+            
+        </section>
+
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="mt-12 py-6 text-center text-gray-500 text-sm border-t border-gray-700">
+        <p>&copy; 2023 Levir Lemos. Desenvolvido com HTML e Tailwind CSS. Todos os direitos reservados.</p>
     </footer>
-    <!--footer2-->
-  </body>
+
+</body>
 </html>
