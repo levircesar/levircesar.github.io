@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treino HIT</title>
+    <!-- Carrega Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilização customizada para a fonte e o corpo (Minimalista Dark) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Azul Escuro Fundo Principal */
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        
+        /* Estilo para o grande número do cronômetro (Mobile First) */
+        .timer-display {
+            font-size: 5rem; /* Menor em mobile */
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 10px rgba(255, 69, 90, 0.4);
+        }
+        /* Ajuste para telas maiores */
+        @media (min-width: 640px) {
+            .timer-display {
+                font-size: 9rem; /* Maior em desktop */
+            }
+        }
+
+        /* Estilo para o contador 3-2-1 */
+        .countdown {
+            font-size: 10rem; /* Ajustado para mobile */
+            color: #ff455a; /* Vermelho Principal */
+            animation: pulse 0.5s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(1.05); opacity: 0.7; }
+        }
+        /* Efeito de botão pressionado */
+        .btn-control:active {
+            transform: scale(0.98);
+        }
+        
+        /* Estilo para o painel de destaque do intervalo atual */
+        .highlight-run {
+            background-color: #ff455a; /* Vermelho Principal (Corrida) */
+            border-bottom: 6px solid #b32e3d;
+        }
+        .highlight-walk {
+            background-color: #38bdf8; /* Azul Claro (Caminhada/Recuperação) */
+            border-bottom: 6px solid #1e87b0;
+        }
+        .highlight-ramp {
+            background-color: #facc15; /* Amarelo/Ouro (Aceleração) */
+            border-bottom: 6px solid #d97706;
+            color: #1a1a2e; /* Garante bom contraste no texto */
+        }
+        
+        /* Ajuste do Título para Mobile */
+        .app-title {
+            font-size: 2rem; /* Tamanho base menor */
+        }
+        @media (min-width: 640px) {
+            .app-title {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 bg-[#1a1a2e]">
+
+    <div id="app" class="w-full max-w-sm sm:max-w-md bg-[#2c2c44] p-6 rounded-2xl shadow-2xl space-y-8 border-t-4 border-[#ff455a]">
+        <h1 class="app-title font-extrabold text-center text-[#ff455a] uppercase tracking-wide">HIT</h1>
+
+        <!-- 1. Configuração do Treino (Visível antes de começar) -->
+        <div id="config-panel" class="space-y-6">
+            <div class="space-y-2">
+                <label for="difficulty" class="block text-sm font-semibold text-gray-300">Nível de Dificuldade:</label>
+                <select id="difficulty" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[#1a1a2e] border border-gray-600 focus:ring-4 focus:ring-[#ff455a]/50 focus:border-[#ff455a] transition duration-200 appearance-none cursor-pointer text-base">
+                    <option value="easy">Fácil (1:1)</option>
+                    <option value="medium" selected>Médio (C/ Aceleração)</option>
+                    <option value="hard">Difícil (C/ Aceleração)</option>
+                    <option value="extreme">Extremo (C/ Aceleração)</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label for="duration" class="block text-sm font-semibold text-gray-300">Duração Total (minutos):</label>
+                <select id="duration" onchange="updatePreview()" class="w-full p-3 rounded-xl bg-[#1a1a2e] border border-gray-600 focus:ring-4 focus:ring-[#ff455a]/50 focus:border-[#ff455a] transition duration-200 appearance-none cursor-pointer text-base">
+                    <option value="5">5 min</option>
+                    <option value="10">10 min</option>
+                    <option value="15" selected>15 min</option>
+                    <option value="20">20 min</option>
+                    <option value="25">25 min</option>
+                    <option value="30">30 min</option>
+                </select>
+            </div>
+
+            <!-- Painel de Pré-visualização -->
+            <div id="preview-panel" class="bg-[#1a1a2e] p-4 rounded-xl shadow-inner border border-gray-700 max-h-48 overflow-y-auto space-y-2">
+                <p class="text-sm font-bold text-[#ff455a] mb-2">PRÉ-VISUALIZAÇÃO DO TREINO</p>
+                <div id="preview-list" class="space-y-1 text-xs">
+                    <!-- Conteúdo gerado via JS -->
+                </div>
+            </div>
+
+            <button onclick="startCountdown()" id="start-btn-initial" class="btn-control w-full py-4 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-extrabold rounded-xl shadow-lg shadow-[#ff455a]/40 transition duration-150 transform hover:-translate-y-0.5">
+                COMEÇAR
+            </button>
+        </div>
+
+        <!-- 2. Display do Cronômetro e Velocidades (Visível durante o treino) -->
+        <div id="workout-panel" class="hidden text-center space-y-6">
+            
+            <!-- Título do Intervalo e Tempo Total Restante -->
+            <div id="interval-header" class="p-3 rounded-lg shadow-md transition duration-300">
+                <p id="current-interval-type" class="text-xl font-bold uppercase text-white sm:text-2xl">PREPARAR</p>
+                <p class="text-sm text-gray-300 mt-1">Total Restante: <span id="total-time-remaining" class="font-mono">--:--</span></p>
+            </div>
+
+            <!-- Contador de Tempo -->
+            <div class="flex flex-col items-center justify-center h-40 sm:h-48 bg-[#1a1a2e] rounded-xl shadow-inner border border-gray-700">
+                <!-- 3-2-1 Countdown -->
+                <div id="countdown-display" class="countdown hidden">3</div>
+                <!-- Main Timer -->
+                <div id="main-timer-display" class="timer-display text-[#ff455a]">00:00</div>
+            </div>
+
+            <!-- Velocidade Sugerida -->
+            <div class="bg-[#1a1a2e] p-4 rounded-xl shadow-md border-l-4 border-[#38bdf8]">
+                <p class="text-sm font-semibold text-gray-300 mb-1">VELOCIDADE SUGERIDA (km/h)</p>
+                <p id="speed-display" class="text-4xl sm:text-5xl font-extrabold text-[#38bdf8] transition duration-300">--</p>
+            </div>
+        </div>
+
+        <!-- 3. Controles do Treino (Visível durante/depois do treino) -->
+        <div id="controls-panel" class="flex justify-center space-x-2 pt-2 sm:space-x-4">
+            <button onclick="pauseWorkout()" id="pause-btn" class="btn-control hidden flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+                PAUSAR
+            </button>
+            <button onclick="stopWorkout()" id="stop-btn" class="btn-control hidden flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+                PARAR
+            </button>
+            <button onclick="startWorkout()" id="resume-btn" class="btn-control hidden flex-1 py-3 bg-[#38bdf8] hover:bg-[#1e87b0] text-white font-semibold rounded-xl shadow-md transition duration-150 text-sm sm:text-base">
+                CONTINUAR
+            </button>
+            <button onclick="resetWorkout()" id="reset-btn" class="btn-control hidden w-full py-4 bg-[#ff455a] hover:bg-[#b32e3d] text-white font-extrabold rounded-xl shadow-lg transition duration-150">
+                RESETAR
+            </button>
+        </div>
+
+        <!-- Mensagem de Conclusão -->
+        <div id="finished-message" class="hidden text-center mt-6 p-4 bg-green-900/50 rounded-xl border border-green-700">
+            <p class="text-2xl font-bold text-green-400">TREINO CONCLUÍDO! 🎉</p>
+            <p class="text-gray-400">Ótimo trabalho! Clique em RESETAR para começar de novo.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÕES E VARIÁVEIS DE ESTADO ---
+
+        // Configurações predefinidas para os níveis de dificuldade
+        // Os intervalos (runDuration, walkDuration, rampDuration) são agora 30s, 60s ou 120s.
+        const WORKOUT_PROFILES = {
+            // Easy: 1:1, walk: 60s, run: 60s, ramp: 0s. Mantém a mudança abrupta.
+            easy: { runSpeed: 8.0, walkSpeed: 5.0, runDuration: 60, walkDuration: 60, runRatio: '1:1', rampDuration: 0 }, 
+            // Médio: 1:1 (com 30s de aceleração), ajustado de 45s para 60s de caminhada.
+            medium: { runSpeed: 10.0, walkSpeed: 5.5, runDuration: 60, walkDuration: 60, runRatio: '1:1', rampDuration: 30 }, 
+            // Hard: 2:1 (com 30s de aceleração), 30s de caminhada.
+            hard: { runSpeed: 12.0, walkSpeed: 6.0, runDuration: 60, walkDuration: 30, runRatio: '2:1', rampDuration: 30 }, 
+            // Extremo: 2:1 (com 30s de aceleração), ajustado de 20s para 30s de caminhada.
+            extreme: { runSpeed: 14.0, walkSpeed: 6.5, runDuration: 60, walkDuration: 30, runRatio: '2:1', rampDuration: 30 }, 
+        };
+
+        // Estado do Treino
+        let state = 'stopped'; // 'stopped', 'countdown', 'running', 'paused', 'finished'
+        let timerInterval;
+        let profile = null;
+
+        // Estrutura do Treino
+        let workoutSteps = [];
+        let currentStepIndex = 0;
+        let stepTimeRemaining = 0;
+
+        // --- REFERÊNCIAS DOM ---
+        const configPanel = document.getElementById('config-panel');
+        const workoutPanel = document.getElementById('workout-panel');
+        const controlsPanel = document.getElementById('controls-panel');
+        const startBtnInitial = document.getElementById('start-btn-initial');
+        const pauseBtn = document.getElementById('pause-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const resumeBtn = document.getElementById('resume-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const countdownDisplay = document.getElementById('countdown-display');
+        const mainTimerDisplay = document.getElementById('main-timer-display');
+        const totalTimeRemainingDisplay = document.getElementById('total-time-remaining');
+        const currentIntervalTypeDisplay = document.getElementById('current-interval-type');
+        const speedDisplay = document.getElementById('speed-display');
+        const finishedMessage = document.getElementById('finished-message');
+        const difficultySelect = document.getElementById('difficulty');
+        const durationSelect = document.getElementById('duration');
+        const previewList = document.getElementById('preview-list');
+        const intervalHeader = document.getElementById('interval-header');
+
+
+        // --- FUNÇÕES DE ÁUDIO ---
+        
+        /**
+         * Toca um bipe simples usando a Web Audio API.
+         * @param {number} frequency - Frequência em Hz.
+         * @param {number} duration - Duração em ms.
+         */
+        function playBeep(frequency = 440, duration = 150) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+
+            try {
+                const context = new AudioContext();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+
+                // Configurações do som
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+
+                // Configurações de volume (rampa para evitar clique ao parar)
+                gainNode.gain.setValueAtTime(0.5, context.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration / 1000);
+
+                // Inicia e para o som
+                oscillator.start();
+                oscillator.stop(context.currentTime + duration / 1000);
+            } catch (e) {
+                console.error("Web Audio API error:", e);
+                // Permite que o aplicativo continue rodando mesmo sem suporte a áudio
+            }
+        }
+
+
+        // --- FUNÇÕES DE UTILIDADE E GERAÇÃO DE PASSOS ---
+
+        /**
+         * Formata segundos para MM:SS
+         * @param {number} totalSeconds
+         * @returns {string}
+         */
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        /**
+         * Calcula o tempo total restante no treino.
+         * @returns {number}
+         */
+        function calculateTotalTimeRemaining() {
+            let remaining = stepTimeRemaining;
+            for (let i = currentStepIndex + 1; i < workoutSteps.length; i++) {
+                remaining += workoutSteps[i].duration;
+            }
+            return remaining;
+        }
+
+        /**
+         * Gera a sequência de passos do treino (Corrida/Caminhada)
+         * @param {string} difficultyValue
+         * @param {string} durationValue
+         * @returns {Array<Object>} Lista de passos do treino.
+         */
+        function createWorkoutSteps(difficultyValue, durationValue) {
+            const selectedProfile = WORKOUT_PROFILES[difficultyValue];
+            const steps = [];
+            const totalDurationMinutes = parseInt(durationValue);
+            const totalDurationSeconds = totalDurationMinutes * 60;
+            const runDuration = selectedProfile.runDuration;
+            const walkDuration = selectedProfile.walkDuration;
+            const rampDuration = selectedProfile.rampDuration;
+            
+            // Calcula a velocidade intermediária (média entre caminhada e corrida)
+            const rampSpeed = (selectedProfile.walkSpeed + selectedProfile.runSpeed) / 2;
+
+            let timeElapsed = 0;
+
+            // 1. Aquecimento (Walk - 1 min)
+            steps.push({ 
+                type: 'walk', 
+                duration: 60, 
+                speed: selectedProfile.walkSpeed, 
+                label: 'AQUECIMENTO',
+                icon: '🔥'
+            });
+            timeElapsed += 60;
+
+            let cycle = 1;
+
+            // 2. Adiciona ciclos Run/Walk até o tempo total ser atingido
+            while (timeElapsed < totalDurationSeconds) {
+                
+                // --- RAMP-UP (ACELERAÇÃO - Velocidade Intermediária) ---
+                if (rampDuration > 0 && timeElapsed < totalDurationSeconds) {
+                    let duration = Math.min(rampDuration, totalDurationSeconds - timeElapsed);
+                    if (duration > 0) {
+                        steps.push({
+                            type: 'ramp', 
+                            duration: duration,
+                            speed: rampSpeed,
+                            label: `ACELERAÇÃO (Ciclo ${cycle})`,
+                            icon: '🚀'
+                        });
+                        timeElapsed += duration;
+                    }
+                }
+
+                // CORRIDA (High Intensity)
+                if (timeElapsed < totalDurationSeconds) {
+                    let duration = Math.min(runDuration, totalDurationSeconds - timeElapsed);
+                    if (duration > 0) {
+                        steps.push({ 
+                            type: 'run', 
+                            duration: duration, 
+                            speed: selectedProfile.runSpeed,
+                            label: `CORRIDA (Ciclo ${cycle})`,
+                            icon: '⚡'
+                        });
+                        timeElapsed += duration;
+                    }
+                }
+
+                // CAMINHADA (Recovery/Low Intensity)
+                if (timeElapsed < totalDurationSeconds) {
+                    let duration = Math.min(walkDuration, totalDurationSeconds - timeElapsed);
+                    if (duration > 0) {
+                        steps.push({ 
+                            type: 'walk', 
+                            duration: duration, 
+                            speed: selectedProfile.walkSpeed,
+                            label: `CAMINHADA (Ciclo ${cycle})`,
+                            icon: '🐢'
+                        });
+                        timeElapsed += duration;
+                    }
+                }
+                cycle++;
+            }
+
+            // 3. Desaceleração (Cool Down - 1 min, se houver tempo)
+            // Se sobrou tempo suficiente para uma desaceleração, adiciona um passo final de 1 minuto
+            const finalCooldownTime = 60;
+            if (totalDurationSeconds - timeElapsed >= finalCooldownTime) {
+                 steps.push({ 
+                    type: 'walk', 
+                    duration: finalCooldownTime, 
+                    speed: selectedProfile.walkSpeed, 
+                    label: 'DESACELERAÇÃO',
+                    icon: '🧘'
+                });
+            // Se sobrou algum tempo, mas menos que 1 minuto, usa o tempo restante
+            } else if (totalDurationSeconds > timeElapsed) {
+                 steps.push({ 
+                    type: 'walk', 
+                    duration: totalDurationSeconds - timeElapsed, 
+                    speed: selectedProfile.walkSpeed, 
+                    label: 'DESACELERAÇÃO',
+                    icon: '🧘'
+                });
+            }
+
+            return steps;
+        }
+
+        // --- FUNÇÕES DE PRÉ-VISUALIZAÇÃO ---
+
+        /**
+         * Gera e exibe a pré-visualização do treino.
+         */
+        function updatePreview() {
+            const difficultyValue = difficultySelect.value;
+            const durationValue = durationSelect.value;
+            
+            const steps = createWorkoutSteps(difficultyValue, durationValue);
+
+            let html = '';
+            let totalTime = 0;
+
+            steps.forEach((step, index) => {
+                totalTime += step.duration;
+                const timeStr = formatTime(step.duration);
+                const speedStr = step.speed.toFixed(1);
+
+                let typeClass;
+                let speedColor;
+
+                if (step.type === 'run') {
+                    typeClass = 'text-[#ff455a] font-medium';
+                    speedColor = '#ff455a';
+                } else if (step.type === 'walk') {
+                    typeClass = 'text-[#38bdf8]';
+                    speedColor = '#38bdf8';
+                } else if (step.type === 'ramp') {
+                    typeClass = 'text-[#facc15] font-medium';
+                    speedColor = '#facc15';
+                }
+                
+                html += `
+                    <p class="flex justify-between items-center px-2 py-1 bg-[#2c2c44] rounded-lg">
+                        <span class="text-gray-400">${step.icon} Passo ${index + 1}: ${step.label.split(' ')[0]}</span>
+                        <span class="${typeClass} text-right" style="color:${speedColor}">
+                            ${timeStr} @ ${speedStr} km/h
+                        </span>
+                    </p>
+                `;
+            });
+            
+            // Total calculado real
+            const totalTimeMinutes = Math.floor(totalTime / 60);
+
+            previewList.innerHTML = `
+                ${html}
+                <div class="pt-2 mt-2 border-t border-gray-700 text-gray-300 font-bold flex justify-between">
+                    <span>Duração Total Estimada:</span> 
+                    <span class="text-white">${totalTimeMinutes} minutos</span>
+                </div>
+            `;
+        }
+
+        // --- FUNÇÕES DE ESTADO E EXIBIÇÃO ---
+
+        /**
+         * Atualiza a interface (botões e painéis) com base no estado atual.
+         */
+        function updateUI() {
+            // Remove classes de destaque
+            intervalHeader.classList.remove('highlight-run', 'highlight-walk', 'highlight-ramp');
+            
+            // Esconde/mostra painéis
+            configPanel.classList.toggle('hidden', state !== 'stopped');
+            workoutPanel.classList.toggle('hidden', state === 'stopped');
+            finishedMessage.classList.add('hidden');
+
+            // Lógica dos botões
+            startBtnInitial.classList.add('hidden'); 
+            pauseBtn.classList.add('hidden');
+            stopBtn.classList.add('hidden');
+            resumeBtn.classList.add('hidden');
+            resetBtn.classList.add('hidden');
+            controlsPanel.classList.remove('justify-center', 'space-x-2', 'space-x-4', 'flex');
+            controlsPanel.classList.add('flex');
+
+            if (state === 'stopped') {
+                configPanel.classList.remove('hidden');
+                startBtnInitial.classList.remove('hidden');
+                controlsPanel.classList.remove('flex'); // Esconde o painel de controles
+            } else if (state === 'countdown') {
+                controlsPanel.classList.add('hidden');
+            } else if (state === 'running') {
+                pauseBtn.classList.remove('hidden');
+                stopBtn.classList.remove('hidden');
+                controlsPanel.classList.add('space-x-2', 'justify-center');
+            } else if (state === 'paused') {
+                resumeBtn.classList.remove('hidden');
+                stopBtn.classList.remove('hidden');
+                controlsPanel.classList.add('space-x-2', 'justify-center');
+            } else if (state === 'finished') {
+                workoutPanel.classList.add('hidden');
+                finishedMessage.classList.remove('hidden');
+                resetBtn.classList.remove('hidden');
+                controlsPanel.classList.add('justify-center');
+            }
+        }
+
+        /**
+         * Atualiza todos os textos do cronômetro e velocidade.
+         */
+        function updateDisplay() {
+            // Remove classes de destaque
+            intervalHeader.classList.remove('highlight-run', 'highlight-walk', 'highlight-ramp');
+            
+            if (state === 'stopped' || state === 'finished') {
+                mainTimerDisplay.textContent = formatTime(0);
+                totalTimeRemainingDisplay.textContent = formatTime(0);
+                speedDisplay.textContent = '--';
+                currentIntervalTypeDisplay.textContent = 'PRONTO!';
+                return;
+            }
+
+            const totalRemaining = calculateTotalTimeRemaining();
+            mainTimerDisplay.textContent = formatTime(stepTimeRemaining);
+            totalTimeRemainingDisplay.textContent = formatTime(totalRemaining);
+
+            if (state === 'running' || state === 'paused') {
+                const step = workoutSteps[currentStepIndex];
+                let typeText = step.label;
+                let speed = step.speed;
+
+                currentIntervalTypeDisplay.textContent = typeText;
+                speedDisplay.textContent = speed.toFixed(1);
+
+                // Destaque de cor
+                if(step.type === 'run') {
+                    intervalHeader.classList.add('highlight-run');
+                    currentIntervalTypeDisplay.classList.remove('text-black');
+                } else if (step.type === 'walk') {
+                    intervalHeader.classList.add('highlight-walk');
+                    currentIntervalTypeDisplay.classList.remove('text-black');
+                } else if (step.type === 'ramp') {
+                    intervalHeader.classList.add('highlight-ramp');
+                    currentIntervalTypeDisplay.classList.add('text-black'); // Ajusta texto para cor de fundo clara
+                }
+            }
+        }
+
+
+        // --- FUNÇÕES DE CONTROLE DO TREINO ---
+
+        /**
+         * Inicia o contador 3-2-1.
+         */
+        function startCountdown() {
+            // 1. Configura o Treino usando os valores de seleção
+            const difficultyValue = difficultySelect.value;
+            const durationValue = durationSelect.value;
+            profile = WORKOUT_PROFILES[difficultyValue];
+            workoutSteps = createWorkoutSteps(difficultyValue, durationValue);
+            
+            // Re-inicializa o estado do passo
+            currentStepIndex = 0;
+            stepTimeRemaining = workoutSteps.length > 0 ? workoutSteps[0].duration : 0;
+
+            // 2. Transiciona o Estado para Countdown
+            state = 'countdown';
+            updateUI();
+            updateDisplay();
+
+            let count = 3;
+            countdownDisplay.textContent = count;
+            countdownDisplay.classList.remove('hidden');
+            mainTimerDisplay.classList.add('hidden');
+            currentIntervalTypeDisplay.textContent = 'PREPARE-SE!';
+
+            timerInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownDisplay.textContent = count;
+                    playBeep(600, 150); // Bipe de contagem
+                } else if (count === 0) {
+                    countdownDisplay.textContent = 'VAI!';
+                    playBeep(900, 300); // Bipe longo para VAI
+                } else {
+                    clearInterval(timerInterval);
+                    countdownDisplay.classList.add('hidden');
+                    mainTimerDisplay.classList.remove('hidden');
+                    startWorkout();
+                }
+            }, 1000);
+        }
+
+        /**
+         * Inicia ou Continua o treino (após o countdown ou pausa).
+         */
+        function startWorkout() {
+            if (state === 'finished' || state === 'running' || workoutSteps.length === 0) return;
+
+            state = 'running';
+            updateUI();
+            updateDisplay(); 
+
+            timerInterval = setInterval(() => {
+                // 1. Decrementa o tempo restante do passo atual
+                stepTimeRemaining--;
+
+                // 2. Atualiza o display (tempo do passo e tempo total)
+                updateDisplay();
+
+                // 3. Verifica se o passo atual terminou
+                if (stepTimeRemaining <= 0) {
+                    currentStepIndex++; // Move para o próximo passo
+
+                    // 4. Verifica se o treino terminou
+                    if (currentStepIndex >= workoutSteps.length) {
+                        stopWorkout(true); // Treino concluído
+                        playBeep(1200, 500); // Bipe final de conclusão
+                        return;
+                    }
+
+                    // 5. Configura o novo passo e toca o bipe de transição
+                    stepTimeRemaining = workoutSteps[currentStepIndex].duration;
+                    
+                    const nextStepType = workoutSteps[currentStepIndex].type;
+                    if (nextStepType === 'run') {
+                        playBeep(880, 200); // Tom alto para CORRIDA
+                    } else if (nextStepType === 'ramp') {
+                        playBeep(700, 200); // Tom médio para ACELERAÇÃO
+                    } else { // walk (recovery/cooldown)
+                        playBeep(550, 200); // Tom baixo para CAMINHADA/RECUPERAÇÃO
+                    }
+
+                    // 6. Atualiza o display para o novo passo
+                    updateDisplay();
+                }
+
+            }, 1000);
+        }
+
+        /**
+         * Pausa o treino.
+         */
+        function pauseWorkout() {
+            if (state !== 'running') return;
+            clearInterval(timerInterval);
+            state = 'paused';
+            updateUI();
+            currentIntervalTypeDisplay.textContent = 'PAUSADO 🛑';
+        }
+
+        /**
+         * Para o treino completamente.
+         * @param {boolean} [completed=false] - Se o treino terminou por conclusão de todos os passos.
+         */
+        function stopWorkout(completed = false) {
+            clearInterval(timerInterval);
+            state = completed ? 'finished' : 'stopped';
+            updateUI();
+
+            if (!completed) {
+                // Se não foi concluído, limpa o estado de tempo
+                currentStepIndex = 0;
+                stepTimeRemaining = 0;
+                updateDisplay();
+            }
+        }
+
+        /**
+         * Reseta o aplicativo para o estado inicial.
+         */
+        function resetWorkout() {
+            clearInterval(timerInterval);
+            state = 'stopped';
+            currentStepIndex = 0;
+            stepTimeRemaining = 0;
+            workoutSteps = [];
+            profile = null;
+            updateUI();
+            updateDisplay();
+            updatePreview(); // Gera a pré-visualização inicial
+        }
+
+        // Inicializa a interface e a pré-visualização ao carregar
+        document.addEventListener('DOMContentLoaded', resetWorkout);
+
+    </script>
+</body>
+</html>
